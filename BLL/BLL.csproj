@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>Net6SpaTemplate.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Net6SpaTemplate.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>harrygillingham.xyz.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>harrygillingham.xyz.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

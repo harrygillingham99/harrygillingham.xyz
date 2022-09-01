@@ -5,7 +5,9 @@ export const Template: React.FC = () => {
   return (
     <>
       <p>This is a .NET 6 SPA Template {number}!</p>
-      <button onClick={() => setNumber(number + 1)}>Increment</button>
+      <button onClick={() => setNumber(number + 1)} className="btn">
+        Increment
+      </button>
     </>
   );
 };

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Json;
-using static Net6SpaTemplate.ServiceRegistry;
+using static harrygillingham.xyz.WebHost.ServiceRegistry;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Error)

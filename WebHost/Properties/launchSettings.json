@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "Net6SpaTemplate": {
+    "harrygillingham.xyz": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

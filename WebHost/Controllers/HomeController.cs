@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using NSwag.Annotations;
 
-namespace Net6SpaTemplate.WebHost.Controllers
+namespace harrygillingham.xyz.WebHost.Controllers
 {
     [OpenApiIgnore]
     public class HomeController : Controller

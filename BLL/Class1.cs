@@ -1,4 +1,4 @@
-﻿namespace Net6SpaTemplate.BLL
+﻿namespace harrygillingham.xyz.BLL
 {
     public class Class1
     {

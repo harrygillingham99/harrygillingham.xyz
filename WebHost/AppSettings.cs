@@ -1,4 +1,4 @@
-﻿namespace Net6SpaTemplate
+﻿namespace harrygillingham.xyz.WebHost
 {
     public class AppSettings
     {

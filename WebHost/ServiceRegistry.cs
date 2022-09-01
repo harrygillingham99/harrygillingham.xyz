@@ -1,7 +1,7 @@
-﻿using Scrutor;
-using System.CodeDom.Compiler;
+﻿using System.CodeDom.Compiler;
+using Scrutor;
 
-namespace Net6SpaTemplate
+namespace harrygillingham.xyz.WebHost
 {
     public static class ServiceRegistry
     {

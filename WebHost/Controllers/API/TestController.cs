@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Net6SpaTemplate.WebHost.Controllers.API
+namespace harrygillingham.xyz.WebHost.Controllers.API
 {
     [ApiController]
     [Route("test")]

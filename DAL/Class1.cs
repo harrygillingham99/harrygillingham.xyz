@@ -1,4 +1,4 @@
-﻿namespace Net6SpaTemplate.DAL;
+﻿namespace harrygillingham.xyz.DAL;
 public class Class1
 {
 
