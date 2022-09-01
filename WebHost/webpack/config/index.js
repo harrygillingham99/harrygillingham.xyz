@@ -77,5 +77,5 @@ module.exports = {
     minify: false,
   },
 
-  title: "Template",
+  title: "harrygillingham.xyz",
 };
