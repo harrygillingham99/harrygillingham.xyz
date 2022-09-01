@@ -1,12 +1,13 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using Serilog;
+using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting.Json;
 using static harrygillingham.xyz.WebHost.ServiceRegistry;
 
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+    .MinimumLevel.ControlledBy(new LoggingLevelSwitch(LogEventLevel.Error))
     .Enrich.FromLogContext()
      .Enrich.WithAssemblyName()
     .Enrich.WithAssemblyVersion()
@@ -94,13 +95,13 @@ void ConfigureApp(WebApplication webApplication, bool isDevelopment)
 
     webApplication.UseHttpsRedirection();
 
+    webApplication.UseHsts();
+
     webApplication.UseStaticFiles();
 
     webApplication.UseRouting();
 
     webApplication.UseAuthorization();
-
-    webApplication.UseForwardedHeaders();
 
     webApplication.UseResponseCompression();
 
