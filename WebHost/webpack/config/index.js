@@ -1,7 +1,6 @@
 const path = require("path");
 const appRoot = require("app-root-path");
 const faviconPath = "./src/icons/favicon/*";
-const worldpayStaticPath = "./src/static/worldpay/*";
 const distPath = path.resolve(appRoot.toString(), "wwwroot");
 const devServerUrl = "https://localhost";
 const devServerPort = 8080;
@@ -50,11 +49,6 @@ module.exports = {
       {
         from: faviconPath,
         to: path.join(distPath, "favicon/[name][ext]"),
-        noErrorOnMissing: true,
-      },
-      {
-        from: worldpayStaticPath,
-        to: path.join(distPath, "hpp/[name][ext]"),
         noErrorOnMissing: true,
       },
     ],

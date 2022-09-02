@@ -11,7 +11,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="@Url.Content("~/favicon/apple-touch-icon.png")" />
     <link rel="icon" type="image/png" sizes="16x16" href="@Url.Content("~/favicon/favicon-16x16.png")" />
     <link rel="icon" type="image/png" sizes="32x32" href="@Url.Content("~/favicon/favicon-32x32.png")" />
-
+    <link rel="manifest" href="@Url.Content("~/favicon/site.webmanifest")">
     <% for (var css in htmlWebpackPlugin.files.css) { %>
         <% var url = htmlWebpackPlugin.files.css[css]; %>
         <% if (htmlWebpackPlugin.options.devServer) { %>
