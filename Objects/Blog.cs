@@ -2,6 +2,25 @@
 {
     public class Blog : BlogSummary
     {
-        public string Content { get; set; }
+        public Blog()
+        {
+
+        }
+
+        public Blog(string title, string markdownContent)
+        {
+            MarkdownContent = markdownContent;
+            Title = title;
+            Slug = title.ToLowerInvariant().Replace(" ", "-");
+        }
+
+        public Blog(string title, string slug, string markdownContent)
+        {
+            MarkdownContent = markdownContent;
+            Title = title;
+            Slug = slug;
+        }
+
+        public string MarkdownContent { get; set; } = string.Empty;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using NSwag.Annotations;
 
 namespace harrygillingham.xyz.WebHost.Controllers
@@ -14,7 +13,6 @@ namespace harrygillingham.xyz.WebHost.Controllers
 
         public IActionResult Index()
         {
-
             return View("Index");
         }
     }

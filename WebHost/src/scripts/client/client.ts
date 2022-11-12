@@ -37,7 +37,7 @@ export class Client implements IClient {
     page: number | null | undefined,
     pageSize: number | null | undefined
   ): Promise<BlogSummary[]> {
-    let url_ = this.baseUrl + "/blog/summary?";
+    let url_ = this.baseUrl + "/api/blog/summary?";
     if (page !== undefined && page !== null)
       url_ += "page=" + encodeURIComponent("" + page) + "&";
     if (pageSize !== undefined && pageSize !== null)
@@ -108,7 +108,7 @@ export class Client implements IClient {
   }
 
   blog_Article(id: string): Promise<Blog> {
-    let url_ = this.baseUrl + "/blog/article/{id}";
+    let url_ = this.baseUrl + "/api/blog/article/{id}";
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -287,7 +287,7 @@ export interface IBlogSummary {
 }
 
 export class Blog extends BlogSummary implements IBlog {
-  content?: string;
+  markdownContent?: string;
 
   constructor(data?: IBlog) {
     super(data);
@@ -296,7 +296,7 @@ export class Blog extends BlogSummary implements IBlog {
   init(_data?: any) {
     super.init(_data);
     if (_data) {
-      this.content = _data["content"];
+      this.markdownContent = _data["markdownContent"];
     }
   }
 
@@ -309,14 +309,14 @@ export class Blog extends BlogSummary implements IBlog {
 
   toJSON(data?: any) {
     data = typeof data === "object" ? data : {};
-    data["content"] = this.content;
+    data["markdownContent"] = this.markdownContent;
     super.toJSON(data);
     return data;
   }
 }
 
 export interface IBlog extends IBlogSummary {
-  content?: string;
+  markdownContent?: string;
 }
 
 export class SwaggerException extends Error {

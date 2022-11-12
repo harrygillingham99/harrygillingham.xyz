@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using harrygillingham.xyz.BLL.Facades;
 using harrygillingham.xyz.Objects;
 using harrygillingham.xyz.Objects.Config;
 using harrygillingham.xyz.WebHost.Controllers.API.Base;
@@ -8,27 +9,30 @@ using Microsoft.Extensions.Options;
 namespace harrygillingham.xyz.WebHost.Controllers.API
 {
     [ApiController]
-    [Route("blog")]
+    [Route("api/blog")]
     public class BlogController : BaseController
     {
         private readonly BlogConfig _blogConfig;
-        public BlogController(IOptions<BlogConfig> blogOptions)
+        private readonly IBlogFacade _blogFacade;
+        public BlogController(IOptions<BlogConfig> blogOptions, IBlogFacade blogFacade)
         {
-            _blogConfig = blogOptions.Value;   
+            _blogFacade = blogFacade;
+            _blogConfig = blogOptions.Value;
         }
 
         [HttpGet("summary")]
         [ProducesResponseType(typeof(List<BlogSummary>), (int)HttpStatusCode.OK)]
         public Task<IActionResult> Summary([FromQuery] int? page, [FromQuery] int? pageSize)
         {
-            throw new NotImplementedException();
+            return ExecuteMapToActionResult(() =>
+                _blogFacade.GetBlogSummaries(page ?? _blogConfig.DefaultPage, pageSize ?? _blogConfig.DefaultPageSize));
         }
 
-        [HttpGet("article/{id}")]
+        [HttpGet("article/{id:guid}")]
         [ProducesResponseType(typeof(Blog), (int)HttpStatusCode.OK)]
         public Task<IActionResult> Article([FromRoute] Guid id)
         {
-            throw new NotImplementedException();
+            return ExecuteMapToActionResult(() => _blogFacade.GetBlogArticle(id));
         }
     }
 }

@@ -2,8 +2,8 @@
 
 public class BlogSummary
 {
-    public string Title { get; set; }
-    public string Slug { get; set; }
-    public Guid Id { get; set; }
-    public DateTime Created { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Slug { get; set; } = string.Empty;
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public DateTime Created { get; set; } = DateTime.Now;
 }
