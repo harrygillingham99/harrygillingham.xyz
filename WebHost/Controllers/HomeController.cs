@@ -7,17 +7,15 @@ namespace harrygillingham.xyz.WebHost.Controllers
     [OpenApiIgnore]
     public class HomeController : Controller
     {
-        private readonly AppSettings _appConfig;
 
-        public HomeController(IOptions<AppSettings> appConfig)
+        public HomeController()
         {
-            _appConfig = appConfig.Value;
         }
 
         public IActionResult Index()
         {
 
-            return View("Index", _appConfig);
+            return View("Index");
         }
     }
 }

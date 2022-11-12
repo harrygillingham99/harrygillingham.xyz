@@ -9,3 +9,5 @@
 /DAL/obj
 /BLL/bin/Release/net6.0
 /DAL/bin/Release/net6.0
+/Objects/bin/Debug/net6.0
+/Objects/obj

@@ -1,5 +1,8 @@
 using System.Diagnostics;
+using System.Net;
 using System.Text.Json.Serialization;
+using harrygillingham.xyz.Objects.Exceptions;
+using Hellang.Middleware.ProblemDetails;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -74,6 +77,16 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
         });
     }
 
+    webApplicationBuilder.Services.AddProblemDetails(cfg =>
+    {
+        cfg.IncludeExceptionDetails = (_, _) => webApplicationBuilder.Environment.IsDevelopment();
+
+        cfg.MapToStatusCode<NotFoundException>((int)HttpStatusCode.NotFound);
+        cfg.MapToStatusCode<BadRequestException>((int)HttpStatusCode.BadRequest);
+        cfg.MapToStatusCode<Exception>((int)HttpStatusCode.InternalServerError);
+
+    });
+
     webApplicationBuilder.Services.AddResponseCompression();
 
     webApplicationBuilder.Services.AddHttpContextAccessor();
@@ -82,8 +95,6 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
 
     AddRestClients(webApplicationBuilder.Services, webApplicationBuilder.Configuration);
 
-    AddForwardedHeaderOptions(webApplicationBuilder.Services);
-
     ScanForAllRemainingRegistrations(webApplicationBuilder.Services);
 
     return webApplicationBuilder;
@@ -91,6 +102,8 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
 
 void ConfigureApp(WebApplication webApplication, bool isDevelopment)
 {
+    webApplication.UseProblemDetails();
+
     webApplication.UseSerilogRequestLogging();
 
     webApplication.UseHttpsRedirection();

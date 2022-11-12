@@ -4,7 +4,6 @@ module.exports = {
     "./Views/Templates/_Layout_Template.cshtml",
     "./Views/Home/Index.cshtml",
   ],
-  important: true,
   theme: {
     /*
      * Match Bootstrap's Breakpoints

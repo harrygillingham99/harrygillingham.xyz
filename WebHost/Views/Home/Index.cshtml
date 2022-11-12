@@ -1,13 +1,8 @@
-@model harrygillingham.xyz.WebHost.AppSettings
 @{
     Layout = "_Layout";
 }
 
 <div class="flex flex-col min-h-screen" id="root"></div>
-
-<script>
-    window.appConfig = @Json.Serialize(Model);
-</script>
 
 <noscript>
     You need to enable JavaScript to run this app.
