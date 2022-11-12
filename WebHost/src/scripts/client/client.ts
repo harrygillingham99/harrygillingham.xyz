@@ -14,7 +14,9 @@ export interface IClient {
     pageSize: number | null | undefined
   ): Promise<BlogSummary[]>;
 
-  blog_Article(id: string): Promise<Blog>;
+  blog_ArticleGET(id: string): Promise<Blog>;
+
+  blog_ArticlePOST(blog: Blog): Promise<boolean>;
 }
 
 export class Client implements IClient {
@@ -107,7 +109,7 @@ export class Client implements IClient {
     return Promise.resolve<BlogSummary[]>(null as any);
   }
 
-  blog_Article(id: string): Promise<Blog> {
+  blog_ArticleGET(id: string): Promise<Blog> {
     let url_ = this.baseUrl + "/api/blog/article/{id}";
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.");
@@ -122,11 +124,11 @@ export class Client implements IClient {
     };
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processBlog_Article(_response);
+      return this.processBlog_ArticleGET(_response);
     });
   }
 
-  protected processBlog_Article(response: Response): Promise<Blog> {
+  protected processBlog_ArticleGET(response: Response): Promise<Blog> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && response.headers.forEach) {
@@ -169,6 +171,72 @@ export class Client implements IClient {
       });
     }
     return Promise.resolve<Blog>(null as any);
+  }
+
+  blog_ArticlePOST(blog: Blog): Promise<boolean> {
+    let url_ = this.baseUrl + "/api/blog/article";
+    url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(blog);
+
+    let options_: RequestInit = {
+      body: content_,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    };
+
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processBlog_ArticlePOST(_response);
+    });
+  }
+
+  protected processBlog_ArticlePOST(response: Response): Promise<boolean> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    }
+    if (status === 500) {
+      return response.text().then((_responseText) => {
+        let result500: any = null;
+        let resultData500 =
+          _responseText === ""
+            ? null
+            : JSON.parse(_responseText, this.jsonParseReviver);
+        result500 = ProblemDetails.fromJS(resultData500);
+        return throwException(
+          "A server side error occurred.",
+          status,
+          _responseText,
+          _headers,
+          result500
+        );
+      });
+    } else if (status === 200) {
+      return response.text().then((_responseText) => {
+        let result200: any = null;
+        let resultData200 =
+          _responseText === ""
+            ? null
+            : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = resultData200 !== undefined ? resultData200 : <any>null;
+
+        return result200;
+      });
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          "An unexpected server error occurred.",
+          status,
+          _responseText,
+          _headers
+        );
+      });
+    }
+    return Promise.resolve<boolean>(null as any);
   }
 }
 
@@ -236,6 +304,7 @@ export interface IProblemDetails {
 
 export class BlogSummary implements IBlogSummary {
   title?: string;
+  description?: string;
   slug?: string;
   id?: string;
   created?: Date;
@@ -252,6 +321,7 @@ export class BlogSummary implements IBlogSummary {
   init(_data?: any) {
     if (_data) {
       this.title = _data["title"];
+      this.description = _data["description"];
       this.slug = _data["slug"];
       this.id = _data["id"];
       this.created = _data["created"]
@@ -270,6 +340,7 @@ export class BlogSummary implements IBlogSummary {
   toJSON(data?: any) {
     data = typeof data === "object" ? data : {};
     data["title"] = this.title;
+    data["description"] = this.description;
     data["slug"] = this.slug;
     data["id"] = this.id;
     data["created"] = this.created
@@ -281,6 +352,7 @@ export class BlogSummary implements IBlogSummary {
 
 export interface IBlogSummary {
   title?: string;
+  description?: string;
   slug?: string;
   id?: string;
   created?: Date;

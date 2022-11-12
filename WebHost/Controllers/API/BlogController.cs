@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using harrygillingham.xyz.BLL.Facades;
+using harrygillingham.xyz.BLL.Facades.Interfaces;
 using harrygillingham.xyz.Objects;
 using harrygillingham.xyz.Objects.Config;
 using harrygillingham.xyz.WebHost.Controllers.API.Base;
@@ -33,6 +33,13 @@ namespace harrygillingham.xyz.WebHost.Controllers.API
         public Task<IActionResult> Article([FromRoute] Guid id)
         {
             return ExecuteMapToActionResult(() => _blogFacade.GetBlogArticle(id));
+        }
+
+        [HttpPost("article")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        public Task<IActionResult> Article([FromBody] Blog blog)
+        {
+            return ExecuteMapToActionResult(() => _blogFacade.AddBlogArticle(blog));
         }
     }
 }

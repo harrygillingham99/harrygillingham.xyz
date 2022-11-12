@@ -6,9 +6,11 @@
 	  <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <AssemblyName>harrygillingham.xyz.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>harrygillingham.xyz.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <UserSecretsId>72c56fee-98f8-4355-9da4-82b8ef5f351c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.8" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.17.0" />

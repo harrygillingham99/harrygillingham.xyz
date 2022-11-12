@@ -26,7 +26,7 @@ namespace harrygillingham.xyz.DAL.Repositories.Base
 
             protected static string InvertedTicks => $"{DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks:D19}";
 
-            protected async Task<T> ExecuteTableStoreFuncAsync<T>(Func<TableClient, Task<T>> funcAsync)
+            protected async Task<T> WithTableClient<T>(Func<TableClient, Task<T>> funcAsync)
             {
                 try
                 {
@@ -48,7 +48,7 @@ namespace harrygillingham.xyz.DAL.Repositories.Base
                 }
             }
 
-            private async Task<string> UploadBlob<T>(T payload, string key)
+            protected async Task<string> UploadBlob<T>(T payload, string key)
             {
                 var blobClient = _blobContainerClient.GetBlobClient(key);
                 var bytes = JsonSerializer.SerializeToUtf8Bytes(payload);
