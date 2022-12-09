@@ -18,7 +18,7 @@ public class BlogRepository : BaseAzureStorageRepo , IBlogRepository
         return WithTableClient(async tc =>
         {
             List<BlogEntity> articles = new();
-            var summaryPages = tc.QueryAsync<BlogEntity>(maxPerPage: pageSize).AsPages();
+            var summaryPages = tc.QueryAsync<BlogEntity>(maxPerPage: pageSize).AsPages(pageSizeHint: pageSize);
 
             await foreach (var blogArticle in summaryPages.Skip(page))
             {

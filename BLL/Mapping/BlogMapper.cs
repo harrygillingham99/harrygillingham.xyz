@@ -20,7 +20,7 @@ namespace harrygillingham.xyz.BLL.Mapping
                 Slug = e.Slug,
                 Id = Guid.Parse(e.RowKey),
                 Created = e.Created.DateTime
-            }).ToList();
+            }).OrderByDescending(x => x.Created).ToList();
             
             return new BlogSummaryResponse
             {
