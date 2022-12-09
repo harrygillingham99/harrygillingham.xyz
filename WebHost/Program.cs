@@ -89,6 +89,8 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
 
     webApplicationBuilder.Services.AddResponseCompression();
 
+    webApplicationBuilder.Services.AddLazyCache();
+
     webApplicationBuilder.Services.AddHttpContextAccessor();
 
     AddConfig(webApplicationBuilder.Services, webApplicationBuilder.Configuration);

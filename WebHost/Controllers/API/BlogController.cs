@@ -35,11 +35,11 @@ namespace harrygillingham.xyz.WebHost.Controllers.API
             return ExecuteMapToActionResult(() => _blogFacade.GetBlogArticle(id));
         }
 
-        [HttpPost("article")]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        public Task<IActionResult> Article([FromBody] Blog blog)
-        {
-            return ExecuteMapToActionResult(() => _blogFacade.AddBlogArticle(blog));
-        }
+        //[HttpPost("article")]
+        //[ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        //public Task<IActionResult> Article([FromBody] Blog blog)
+        //{
+        //    return ExecuteMapToActionResult(() => _blogFacade.AddBlogArticle(blog));
+        //}
     }
 }
