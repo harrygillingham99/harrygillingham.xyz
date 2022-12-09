@@ -1,6 +1,7 @@
 ﻿using System.CodeDom.Compiler;
 using harrygillingham.xyz.BLL.Facades;
 using harrygillingham.xyz.DAL.Repositories.Base;
+using harrygillingham.xyz.Objects.Attributes;
 using harrygillingham.xyz.Objects.Config;
 using Scrutor;
 
@@ -12,7 +13,7 @@ namespace harrygillingham.xyz.WebHost
         {
             services.Scan(scan => scan
                 .FromAssembliesOf(typeof(Program), typeof(BlogFacade), typeof(BaseAzureStorageRepo))
-                .AddClasses(x => x.WithoutAttribute<GeneratedCodeAttribute>())
+                .AddClasses(x => x.WithoutAttribute<GeneratedCodeAttribute>().WithoutAttribute<ScrutorIgnoreAttribute>())
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());

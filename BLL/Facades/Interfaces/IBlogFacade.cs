@@ -5,6 +5,6 @@ namespace harrygillingham.xyz.BLL.Facades.Interfaces;
 public interface IBlogFacade
 {
     public Task<BlogSummaryResponse> GetBlogSummaries(int page, int pageSize);
-    public Task<Blog> GetBlogArticle(Guid id);
+    public Task<Blog> GetBlogArticle(string slug);
     Task<bool> AddBlogArticle(Blog blog);
 }

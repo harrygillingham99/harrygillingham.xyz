@@ -11,12 +11,12 @@ import { QueryClient, QueryClientProvider } from "react-query";
 export const App: React.FC = () => {
   const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <AppState.Provider>
-        <div className="min-h-screen flex flex-col">
-          <NavBar />
-          <div className="container min-h-full h-full py-8 lg:py-14 flex flex-col flex-grow">
-            <BrowserRouter>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <AppState.Provider>
+          <div className="min-h-screen flex flex-col">
+            <NavBar />
+            <div className="container min-h-full h-full py-8 lg:py-14 flex flex-col flex-grow">
               <React.Suspense fallback={<SuspenseLoader />}>
                 <Routes>
                   <Route path={Urls.Landing} element={<Landing />} />
@@ -25,11 +25,11 @@ export const App: React.FC = () => {
                   <Route path="*" element={<Navigate to={Urls.Landing} />} />
                 </Routes>
               </React.Suspense>
-            </BrowserRouter>
+            </div>
+            <Footer />
           </div>
-          <Footer />
-        </div>
-      </AppState.Provider>
-    </QueryClientProvider>
+        </AppState.Provider>
+      </QueryClientProvider>
+    </BrowserRouter>
   );
 };

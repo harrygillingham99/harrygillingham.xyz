@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffectOnce, useLocalStorage } from "react-use";
+import { useEffectOnce } from "react-use";
 import { themeChange } from "theme-change";
 
 const NavBar: React.FC = () => {

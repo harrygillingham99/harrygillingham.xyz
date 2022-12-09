@@ -7,7 +7,6 @@ using LazyCache;
 
 namespace harrygillingham.xyz.BLL.Facades
 {
-
     public class BlogFacade : IBlogFacade
     {
         private readonly IBlogRepository _blogRepository;
@@ -31,11 +30,11 @@ namespace harrygillingham.xyz.BLL.Facades
                 ;
         }
 
-        public Task<Blog> GetBlogArticle(Guid id)
+        public Task<Blog> GetBlogArticle(string slug)
         {
-            return _cache.GetOrAddAsync($"{GetType().FullName}_{id}_article", async () =>
+            return _cache.GetOrAddAsync($"{GetType().FullName}_{slug}_article", async () =>
             {
-                var (entity, content) = await _blogRepository.GetBlogEntityWithMarkdownContent(id);
+                var (entity, content) = await _blogRepository.GetBlogEntityWithMarkdownContent(slug);
 
                 if (entity is null || string.IsNullOrWhiteSpace(content))
                     throw new NotFoundException("Article not found");

@@ -28,11 +28,11 @@ namespace harrygillingham.xyz.WebHost.Controllers.API
                 _blogFacade.GetBlogSummaries(page ?? _blogConfig.DefaultPage, pageSize ?? _blogConfig.DefaultPageSize));
         }
 
-        [HttpGet("article/{id:guid}")]
+        [HttpGet("article/{slug}")]
         [ProducesResponseType(typeof(Blog), (int)HttpStatusCode.OK)]
-        public Task<IActionResult> Article([FromRoute] Guid id)
+        public Task<IActionResult> Article([FromRoute] string slug)
         {
-            return ExecuteMapToActionResult(() => _blogFacade.GetBlogArticle(id));
+            return ExecuteMapToActionResult(() => _blogFacade.GetBlogArticle(slug));
         }
 
         //[HttpPost("article")]

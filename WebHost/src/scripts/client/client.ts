@@ -14,7 +14,7 @@ export interface IClient {
     pageSize: number | null | undefined
   ): Promise<BlogSummaryResponse>;
 
-  blog_Article(id: string): Promise<Blog>;
+  blog_Article(slug: string | null): Promise<Blog>;
 }
 
 export class Client implements IClient {
@@ -103,11 +103,11 @@ export class Client implements IClient {
     return Promise.resolve<BlogSummaryResponse>(null as any);
   }
 
-  blog_Article(id: string): Promise<Blog> {
-    let url_ = this.baseUrl + "/api/blog/article/{id}";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace("{id}", encodeURIComponent("" + id));
+  blog_Article(slug: string | null): Promise<Blog> {
+    let url_ = this.baseUrl + "/api/blog/article/{slug}";
+    if (slug === undefined || slug === null)
+      throw new Error("The parameter 'slug' must be defined.");
+    url_ = url_.replace("{slug}", encodeURIComponent("" + slug));
     url_ = url_.replace(/[?&]$/, "");
 
     let options_: RequestInit = {
@@ -374,6 +374,54 @@ export class Blog extends BlogSummary implements IBlog {
 
 export interface IBlog extends IBlogSummary {
   markdownContent?: string;
+}
+
+export class BlogConfig implements IBlogConfig {
+  defaultPageSize?: number;
+  defaultPage?: number;
+  linkedInUrl?: string;
+  gitHubUrl?: string;
+
+  constructor(data?: IBlogConfig) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.defaultPageSize = _data["defaultPageSize"];
+      this.defaultPage = _data["defaultPage"];
+      this.linkedInUrl = _data["linkedInUrl"];
+      this.gitHubUrl = _data["gitHubUrl"];
+    }
+  }
+
+  static fromJS(data: any): BlogConfig {
+    data = typeof data === "object" ? data : {};
+    let result = new BlogConfig();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === "object" ? data : {};
+    data["defaultPageSize"] = this.defaultPageSize;
+    data["defaultPage"] = this.defaultPage;
+    data["linkedInUrl"] = this.linkedInUrl;
+    data["gitHubUrl"] = this.gitHubUrl;
+    return data;
+  }
+}
+
+export interface IBlogConfig {
+  defaultPageSize?: number;
+  defaultPage?: number;
+  linkedInUrl?: string;
+  gitHubUrl?: string;
 }
 
 export class SwaggerException extends Error {

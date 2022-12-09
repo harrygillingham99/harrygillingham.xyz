@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Text.Json.Serialization;
 using harrygillingham.xyz.Objects.Exceptions;
+using harrygillingham.xyz.WebHost.NSwag;
 using Hellang.Middleware.ProblemDetails;
 using Serilog;
 using Serilog.Core;
@@ -74,6 +75,7 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
             cfg.Title = "Internal API";
             cfg.Description = "An Internal API for the Front End";
             cfg.Version = "1.0";
+            cfg.DocumentProcessors.Add(new SchemaExtenderDocumentProcessor());
         });
     }
 

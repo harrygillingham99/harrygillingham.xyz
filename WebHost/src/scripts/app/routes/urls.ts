@@ -1,6 +1,6 @@
 export enum Urls {
   Landing = "/",
-  Blog = "/blog/:slug/:id",
+  Blog = "/:slug",
   About = "/about",
 }
 

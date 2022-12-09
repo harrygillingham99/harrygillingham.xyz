@@ -29,14 +29,14 @@ public class BlogRepository : BaseAzureStorageRepo , IBlogRepository
         });
     }
 
-    public async Task<(BlogEntity? blog, string? content)> GetBlogEntityWithMarkdownContent(Guid id)
+    public async Task<(BlogEntity? blog, string? content)> GetBlogEntityWithMarkdownContent(string slug)
     {
         var blogEntity = await WithTableClient(async tc=>
         {
             var result = tc.QueryAsync<BlogEntity>(blog =>
-                blog.RowKey.Equals(id.ToString(), StringComparison.InvariantCultureIgnoreCase));
+                blog.Slug.Equals(slug, StringComparison.InvariantCultureIgnoreCase));
 
-            var blog = await result.FirstOrDefaultAsync();
+            var blog = await result.OrderByDescending(x => x.Created).FirstOrDefaultAsync();
 
             if (blog is null) throw new NotFoundException("Blog could not be found");
 

@@ -29,14 +29,11 @@ const PaginationControls: React.FC<{
 
       <select
         onChange={(evt) => setPageSize(+evt.target.value)}
+        value={pageSize}
         className="select select-ghost max-w-xs ml-2"
       >
         {[25, 50, 75, 100].map((val, i) => (
-          <option
-            value={val}
-            key={`pageSize_${val}_${i}`}
-            selected={val === pageSize}
-          >
+          <option value={val} key={`pageSize_${val}_${i}`}>
             {val}
           </option>
         ))}

@@ -1,13 +1,16 @@
-import { useEffect, useRef } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useRef, useEffect } from "react";
+import { useQueryClient, useQuery } from "react-query";
 import { useSetState } from "react-use";
 import AppState from "state/AppState";
 
-export const useGetBlogSummaries = (startPage = 0, startPageSize = 25) => {
-  const { client } = AppState.useContainer();
+const useGetBlogSummaries = (startPage?: number, startPageSize?: number) => {
+  const {
+    client,
+    config: { defaultPage, defaultPageSize },
+  } = AppState.useContainer();
   const [state, setState] = useSetState<{ page: number; pageSize: number }>({
-    page: startPage,
-    pageSize: startPageSize,
+    page: startPage ?? defaultPage,
+    pageSize: startPageSize ?? defaultPageSize,
   });
   const firstUpdate = useRef(false);
   const queryClient = useQueryClient();
@@ -31,8 +34,4 @@ export const useGetBlogSummaries = (startPage = 0, startPageSize = 25) => {
   };
 };
 
-export const useGetBlog = (id: string) => {
-  const { client } = AppState.useContainer();
-  const query = useQuery(["blog", id], () => client.blog_Article(id));
-  return { ...query };
-};
+export default useGetBlogSummaries;
