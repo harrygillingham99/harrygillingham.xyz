@@ -15,16 +15,9 @@ module.exports = {
 
   faviconPath: faviconPath,
 
-  vendors: [
-    "react",
-    "react-dom",
-    "bootstrap",
-    "react-router-dom",
-    "react-feather",
-    "dayjs",
-  ],
+  vendors: ["react", "react-dom", "react-router-dom", "react-feather", "dayjs"],
 
-  shared: ["formik", "lodash"],
+  shared: ["formik", "lodash", "bootstrap"],
 
   distPath: distPath,
 
