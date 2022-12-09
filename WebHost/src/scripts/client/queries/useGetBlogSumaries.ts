@@ -27,8 +27,7 @@ const useGetBlogSummaries = (startPage?: number, startPageSize?: number) => {
   }, [state.page, state.pageSize]);
   return {
     ...query,
-    page: state.page,
-    pageSize: state.pageSize,
+    ...state,
     setPage: (page: number) => page >= 0 && setState({ page: page }),
     setPageSize: (pageSize: number) => setState({ pageSize: pageSize }),
   };
