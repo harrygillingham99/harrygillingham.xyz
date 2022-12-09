@@ -33,6 +33,6 @@ export const useGetBlogSummaries = (startPage = 0, startPageSize = 25) => {
 
 export const useGetBlog = (id: string) => {
   const { client } = AppState.useContainer();
-  const query = useQuery(["blog", id], () => client.blog_ArticleGET(id));
+  const query = useQuery(["blog", id], () => client.blog_Article(id));
   return { ...query };
 };

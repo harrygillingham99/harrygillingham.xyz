@@ -14,8 +14,8 @@ const LandingRoute: React.FC = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg: grid-cols-4 gap-4">
-        {data.summaries.map((summary, i) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {[...data.summaries, ...data.summaries].map((summary, i) => (
           <BlogGridCard summary={summary} key={`blogSummary_${i}`} />
         ))}
       </div>
