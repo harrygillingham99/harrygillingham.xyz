@@ -3,6 +3,7 @@ import SuspenseLoader from "@components/common/SuspenseLoader";
 import React from "react";
 import PaginationControls from "@components/blog/PaginationControls";
 import useGetBlogSummaries from "../../client/queries/useGetBlogSumaries";
+import Helmet from "@components/common/Helmet";
 
 const LandingRoute: React.FC = () => {
   const { isLoading, isError, data, ...paginationProps } =
@@ -14,12 +15,13 @@ const LandingRoute: React.FC = () => {
 
   return (
     <>
+      <Helmet title="Blog" />
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data.summaries.map((summary, i) => (
-          <>
-            <BlogGridCard summary={summary} key={`blogSummary_${i}`} />
+          <React.Fragment key={`blogSummary_${i}`}>
+            <BlogGridCard summary={summary} />
             <div className="divider md:hidden" />
-          </>
+          </React.Fragment>
         ))}
       </div>
       <PaginationControls hasNextPage={data.hasNextPage} {...paginationProps} />

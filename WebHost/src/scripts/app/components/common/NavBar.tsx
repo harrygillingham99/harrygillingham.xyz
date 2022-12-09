@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useEffectOnce } from "react-use";
+import { Urls } from "routes/urls";
 import { themeChange } from "theme-change";
 
 const NavBar: React.FC = () => {
@@ -13,7 +15,9 @@ const NavBar: React.FC = () => {
     <div className="navbar bg-base-100 shadow-xl p-0">
       <div className="container">
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl p-0">XYZ</a>
+          <Link to={Urls.Landing} className="p-0 text-2xl">
+            XYZ
+          </Link>
         </div>
         <div className="flex flex-row justify-end">
           🌚

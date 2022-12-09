@@ -5,7 +5,7 @@ import { addUrlParameters, Urls } from "routes/urls";
 import { BlogSummary } from "../../../client/client";
 
 const BlogGridCard: React.FC<{ summary: BlogSummary }> = ({
-  summary: { title, slug, id, description, created },
+  summary: { title, slug, description, created },
 }) => {
   const navigate = useNavigate();
   return (
