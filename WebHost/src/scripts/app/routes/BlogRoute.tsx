@@ -11,7 +11,7 @@ const BlogRoute: React.FC = () => {
 
   if (isLoading) return <SuspenseLoader />;
 
-  if (isError) return <p>Error loading blog post :(</p>;
+  if (isError) return <p>Error loading blog post.</p>;
 
   return <>Blog!</>;
 };

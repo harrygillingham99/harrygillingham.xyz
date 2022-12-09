@@ -10,12 +10,12 @@ const LandingRoute: React.FC = () => {
 
   if (isLoading) return <SuspenseLoader />;
 
-  if (isError) return <p>Error :(</p>;
+  if (isError) return <p>Error loading latest blog posts.</p>;
 
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {[...data.summaries, ...data.summaries].map((summary, i) => (
+        {data.summaries.map((summary, i) => (
           <BlogGridCard summary={summary} key={`blogSummary_${i}`} />
         ))}
       </div>
