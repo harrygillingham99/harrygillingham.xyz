@@ -8,3 +8,9 @@ public class BlogSummary
     public Guid Id { get; set; } = Guid.NewGuid();
     public DateTime Created { get; set; } = DateTime.Now;
 }
+
+public class BlogSummaryResponse
+{
+    public List<BlogSummary> Summaries { get; set; }
+    public bool HasNextPage { get; set; }
+}

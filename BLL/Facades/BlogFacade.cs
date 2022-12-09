@@ -18,10 +18,10 @@ namespace harrygillingham.xyz.BLL.Facades
             _blogMapper = blogMapper;
         }
 
-        public async Task<List<BlogSummary>> GetBlogSummaries(int page, int pageSize)
+        public async Task<BlogSummaryResponse> GetBlogSummaries(int page, int pageSize)
         {
             var blogEntities = await _blogRepository.GetBlogEntities(page, pageSize);
-            return _blogMapper.EntitiesToSummaries(blogEntities);
+            return _blogMapper.EntitiesToSummaries(blogEntities, pageSize);
         }
 
         public async Task<Blog> GetBlogArticle(Guid id)

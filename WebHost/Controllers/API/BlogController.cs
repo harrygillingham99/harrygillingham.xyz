@@ -21,7 +21,7 @@ namespace harrygillingham.xyz.WebHost.Controllers.API
         }
 
         [HttpGet("summary")]
-        [ProducesResponseType(typeof(List<BlogSummary>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BlogSummaryResponse), (int)HttpStatusCode.OK)]
         public Task<IActionResult> Summary([FromQuery] int? page, [FromQuery] int? pageSize)
         {
             return ExecuteMapToActionResult(() =>

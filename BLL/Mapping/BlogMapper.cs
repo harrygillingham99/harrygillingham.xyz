@@ -11,9 +11,9 @@ namespace harrygillingham.xyz.BLL.Mapping
 {
     public class BlogMapper : IBlogMapper
     {
-        public List<BlogSummary> EntitiesToSummaries(List<BlogEntity> entities)
+        public BlogSummaryResponse EntitiesToSummaries(List<BlogEntity> entities, int pageSize)
         {
-            return entities.Select(e => new BlogSummary
+            var summaries = entities.Select(e => new BlogSummary
             {
                 Title = e.Title,
                 Description = e.Description,
@@ -21,6 +21,12 @@ namespace harrygillingham.xyz.BLL.Mapping
                 Id = Guid.Parse(e.RowKey),
                 Created = e.Created.DateTime
             }).ToList();
+            
+            return new BlogSummaryResponse
+            {
+                Summaries = summaries,
+                HasNextPage = summaries.Count == pageSize
+            };
         }
 
         public Blog EntityWithContentToArticle(BlogEntity entity, string content)

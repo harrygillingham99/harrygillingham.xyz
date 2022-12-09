@@ -12,7 +12,7 @@ export interface IClient {
   blog_Summary(
     page: number | null | undefined,
     pageSize: number | null | undefined
-  ): Promise<BlogSummary[]>;
+  ): Promise<BlogSummaryResponse>;
 
   blog_ArticleGET(id: string): Promise<Blog>;
 
@@ -38,7 +38,7 @@ export class Client implements IClient {
   blog_Summary(
     page: number | null | undefined,
     pageSize: number | null | undefined
-  ): Promise<BlogSummary[]> {
+  ): Promise<BlogSummaryResponse> {
     let url_ = this.baseUrl + "/api/blog/summary?";
     if (page !== undefined && page !== null)
       url_ += "page=" + encodeURIComponent("" + page) + "&";
@@ -58,7 +58,9 @@ export class Client implements IClient {
     });
   }
 
-  protected processBlog_Summary(response: Response): Promise<BlogSummary[]> {
+  protected processBlog_Summary(
+    response: Response
+  ): Promise<BlogSummaryResponse> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && response.headers.forEach) {
@@ -87,13 +89,7 @@ export class Client implements IClient {
           _responseText === ""
             ? null
             : JSON.parse(_responseText, this.jsonParseReviver);
-        if (Array.isArray(resultData200)) {
-          result200 = [] as any;
-          for (let item of resultData200)
-            result200!.push(BlogSummary.fromJS(item));
-        } else {
-          result200 = <any>null;
-        }
+        result200 = BlogSummaryResponse.fromJS(resultData200);
         return result200;
       });
     } else if (status !== 200 && status !== 204) {
@@ -106,7 +102,7 @@ export class Client implements IClient {
         );
       });
     }
-    return Promise.resolve<BlogSummary[]>(null as any);
+    return Promise.resolve<BlogSummaryResponse>(null as any);
   }
 
   blog_ArticleGET(id: string): Promise<Blog> {
@@ -300,6 +296,63 @@ export interface IProblemDetails {
   instance?: string | undefined;
 
   [key: string]: any;
+}
+
+export class BlogSummaryResponse implements IBlogSummaryResponse {
+  summaries?: BlogSummary[];
+  hasNextPage?: boolean;
+
+  constructor(data?: IBlogSummaryResponse) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+      if (data.summaries) {
+        this.summaries = [];
+        for (let i = 0; i < data.summaries.length; i++) {
+          let item = data.summaries[i];
+          this.summaries[i] =
+            item && !(<any>item).toJSON
+              ? new BlogSummary(item)
+              : <BlogSummary>item;
+        }
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      if (Array.isArray(_data["summaries"])) {
+        this.summaries = [] as any;
+        for (let item of _data["summaries"])
+          this.summaries!.push(BlogSummary.fromJS(item));
+      }
+      this.hasNextPage = _data["hasNextPage"];
+    }
+  }
+
+  static fromJS(data: any): BlogSummaryResponse {
+    data = typeof data === "object" ? data : {};
+    let result = new BlogSummaryResponse();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === "object" ? data : {};
+    if (Array.isArray(this.summaries)) {
+      data["summaries"] = [];
+      for (let item of this.summaries) data["summaries"].push(item.toJSON());
+    }
+    data["hasNextPage"] = this.hasNextPage;
+    return data;
+  }
+}
+
+export interface IBlogSummaryResponse {
+  summaries?: IBlogSummary[];
+  hasNextPage?: boolean;
 }
 
 export class BlogSummary implements IBlogSummary {
