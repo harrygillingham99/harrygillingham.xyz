@@ -9,8 +9,10 @@ using Microsoft.Extensions.Options;
 namespace harrygillingham.xyz.DAL.Repositories;
 public class BlogRepository : BaseAzureStorageRepo , IBlogRepository
 {
+    private readonly bool _addBlogEnabled;
     public BlogRepository(IOptions<AzureConfig> azureOptions, TableClientOptions? options = null) : base(azureOptions.Value.ConnectionString, azureOptions.Value.BlogTableName, options)
     {
+        _addBlogEnabled = azureOptions.Value.AddBlogEnabled;
     }
 
     public Task<List<BlogEntity>> GetBlogEntities(int page, int pageSize)
@@ -50,6 +52,8 @@ public class BlogRepository : BaseAzureStorageRepo , IBlogRepository
 
     public async Task<bool> AddBlogEntityWithContent(BlogEntity blog, string markdownContent)
     {
+        if (!_addBlogEnabled) return false;
+
         var blobId = await UploadBlob(markdownContent, Guid.NewGuid().ToString());
 
         if (string.IsNullOrWhiteSpace(blobId)) throw new Exception("Content blob failed to upload");

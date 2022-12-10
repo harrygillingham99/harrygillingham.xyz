@@ -4,5 +4,6 @@
     {
         public string BlogTableName { get; set; }
         public string ConnectionString { get; set; }
+        public bool AddBlogEnabled { get; set; }
     }
 }
