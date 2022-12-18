@@ -54,9 +54,11 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
 {
     var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
-    isDevelopment = webApplicationBuilder.Environment.IsDevelopment() ||
+    var isDevelopmentEnv = webApplicationBuilder.Environment.IsDevelopment() ||
                     webApplicationBuilder.Environment.IsStaging() ||
                     Debugger.IsAttached;
+
+    isDevelopment = isDevelopmentEnv;
 
     webApplicationBuilder.Host.UseSerilog();
 
@@ -66,7 +68,7 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
             opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
 
-    if (isDevelopment)
+    if (isDevelopmentEnv)
     {
         mvc.AddRazorRuntimeCompilation();
         webApplicationBuilder.Services.AddEndpointsApiExplorer();
@@ -81,7 +83,7 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
 
     webApplicationBuilder.Services.AddProblemDetails(cfg =>
     {
-        cfg.IncludeExceptionDetails = (_, _) => webApplicationBuilder.Environment.IsDevelopment();
+        cfg.IncludeExceptionDetails = (_, _) => isDevelopmentEnv;
 
         cfg.MapToStatusCode<NotFoundException>((int)HttpStatusCode.NotFound);
         cfg.MapToStatusCode<BadRequestException>((int)HttpStatusCode.BadRequest);
