@@ -5,6 +5,8 @@ namespace harrygillingham.xyz.WebHost.Controllers.API.Base;
 
 [ApiController]
 [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
+[ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NotFound)]
+[ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
 public class BaseController : ControllerBase
 {
     /* async */

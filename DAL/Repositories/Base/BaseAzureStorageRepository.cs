@@ -4,6 +4,7 @@ using Azure;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using harrygillingham.xyz.Objects.Exceptions;
 using Serilog;
 
 namespace harrygillingham.xyz.DAL.Repositories.Base
@@ -26,25 +27,15 @@ namespace harrygillingham.xyz.DAL.Repositories.Base
 
             protected static string InvertedTicks => $"{DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks:D19}";
 
-            protected async Task<T> WithTableClient<T>(Func<TableClient, Task<T>> funcAsync)
+            protected async Task<T?> WithTableClient<T>(Func<TableClient, Task<T>> funcAsync)
             {
                 try
                 {
                     return await funcAsync(_tableClient);
                 }
-                catch (RequestFailedException exception)
+                catch (RequestFailedException exception) when (exception.Status is 404)
                 {
-                    Log.Error(exception.Message, exception);
-                    if (exception.Status == 404)
-                    {
-                        throw;
-                    }
-                    throw new Exception($"{GetType().FullName}.WithTableStore() error", exception);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error("Error on table store operations", ex);
-                    throw new Exception($"{GetType().FullName}.WithTableStore() error", ex);
+                    return default;
                 }
             }
 

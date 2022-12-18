@@ -85,7 +85,6 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
 
         cfg.MapToStatusCode<NotFoundException>((int)HttpStatusCode.NotFound);
         cfg.MapToStatusCode<BadRequestException>((int)HttpStatusCode.BadRequest);
-        cfg.MapToStatusCode<Exception>((int)HttpStatusCode.InternalServerError);
 
     });
 
@@ -106,8 +105,6 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
 
 void ConfigureApp(WebApplication webApplication, bool isDevelopment)
 {
-    webApplication.UseProblemDetails();
-
     webApplication.UseSerilogRequestLogging();
 
     webApplication.UseHttpsRedirection();
@@ -129,10 +126,11 @@ void ConfigureApp(WebApplication webApplication, bool isDevelopment)
             context.Response.Headers.Add("Cache-Control", "private, no-cache");
             await next.Invoke();
         });
-        webApplication.UseDeveloperExceptionPage();
         webApplication.UseSwaggerUi3();
         webApplication.UseOpenApi();
     }
+
+    webApplication.UseProblemDetails();
 
     webApplication.UseEndpoints(endpoints =>
     {

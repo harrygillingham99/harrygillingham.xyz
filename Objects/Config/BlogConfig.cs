@@ -7,7 +7,7 @@ namespace harrygillingham.xyz.Objects.Config
     {
         public int DefaultPageSize { get; set; }
         public int DefaultPage { get; set; }
-        public string LinkedInUrl { get; set; }
-        public string GitHubUrl { get; set; }
+        public string LinkedInUrl { get; set; } = string.Empty;
+        public string GitHubUrl { get; set; } = string.Empty;
     }
 }

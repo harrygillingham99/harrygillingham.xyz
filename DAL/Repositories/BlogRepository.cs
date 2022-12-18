@@ -28,7 +28,7 @@ public class BlogRepository : BaseAzureStorageRepo , IBlogRepository
             }
 
             return articles;
-        });
+        })!;
     }
 
     public async Task<(BlogEntity? blog, string? content)> GetBlogEntityWithMarkdownContent(string slug)
@@ -45,7 +45,7 @@ public class BlogRepository : BaseAzureStorageRepo , IBlogRepository
             return blog;
         });
 
-        var content = await DownloadBlob<string>(blogEntity.MarkdownContentBlobId);
+        var content = await DownloadBlob<string>(blogEntity!.MarkdownContentBlobId);
 
         return (blogEntity, content);
     }

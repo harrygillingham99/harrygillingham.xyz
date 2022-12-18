@@ -11,6 +11,6 @@ public class BlogSummary
 
 public class BlogSummaryResponse
 {
-    public List<BlogSummary> Summaries { get; set; }
+    public List<BlogSummary> Summaries { get; set; } = new();
     public bool HasNextPage { get; set; }
 }

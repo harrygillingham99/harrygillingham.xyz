@@ -26,8 +26,7 @@ namespace harrygillingham.xyz.BLL.Facades
                 {
                     var blogEntities = await _blogRepository.GetBlogEntities(page, pageSize);
                     return _blogMapper.EntitiesToSummaries(blogEntities, pageSize);
-                }, DateTimeOffset.Now.AddHours(2))
-                ;
+                }, DateTimeOffset.Now.AddHours(2));
         }
 
         public Task<Blog> GetBlogArticle(string slug)
