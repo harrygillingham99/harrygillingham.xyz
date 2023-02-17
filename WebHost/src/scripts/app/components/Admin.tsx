@@ -12,7 +12,7 @@ const Admin: React.FC = () => {
       <QueryClientProvider client={queryClient}>
         <AppState.Provider>
           <div className="min-h-screen flex flex-col">
-            <NavBar isAdmin={true} />
+            <NavBar />
             <div className="container min-h-full h-full py-8 lg:py-14 flex flex-col flex-grow">
               <p>Admin site</p>
             </div>

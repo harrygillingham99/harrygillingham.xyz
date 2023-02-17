@@ -19,7 +19,9 @@ namespace harrygillingham.xyz.WebHost.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View("Index", _blogConfig.SetLogOutUrl(Url.Action("Logout", "Account")));
+            return View("Index", _blogConfig
+                .SetIsAuthenticated(User.Identity)
+                .SetLogOutUrl(Url.Action("Logout", "Account")!));
         }
     }
 }

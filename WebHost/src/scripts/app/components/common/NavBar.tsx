@@ -1,19 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useEffectOnce } from "react-use";
-import { Urls } from "routes/urls";
+import React, { useState } from "react";
 import AppState from "state/AppState";
-import { themeChange } from "theme-change";
+import { Home, Settings } from "react-feather";
+import ThemeSwitcher from "./ThemeSwitcher";
+import { Twirl as Hamburger } from "hamburger-react";
 
-const NavBar: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
-  useEffectOnce(() => {
-    themeChange(false);
-  });
-
-  const currentThemeIsLight = window.localStorage?.getItem("theme") === "light";
+const NavBar: React.FC = () => {
   const {
-    config: { logOutUrl },
+    config: { authenticated, logOutUrl },
   } = AppState.useContainer();
+  const [toggled, toggle] = useState<boolean>();
+
   return (
     <div className="navbar bg-base-100 shadow-xl p-0">
       <div className="container">
@@ -21,21 +17,47 @@ const NavBar: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
           <span className="p-0 text-2xl">XYZ</span>
         </div>
         <div className="flex flex-row justify-end items-center">
-          <span className="flex flex-row">
-            🌚
-            <input
-              type="checkbox"
-              className="toggle mx-2"
-              data-toggle-theme="light,dark"
-              data-act-class="active"
-              defaultChecked={currentThemeIsLight}
-            />
-            🌞
-          </span>
-          {isAdmin && (
-            <a className="ml-2 btn rounded-xl normal-case" href={logOutUrl}>
-              Log Out
-            </a>
+          {authenticated ? (
+            <>
+              <div className="dropdown dropdown-end dropdown-open">
+                <Hamburger toggle={toggle} toggled={toggled} />
+                {!toggled && <ThemeSwitcher hidden />}
+                {toggled && (
+                  <ul
+                    className={
+                      "menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4 shadow-xl"
+                    }
+                  >
+                    <li>
+                      <ThemeSwitcher />
+                    </li>
+                    <li>
+                      <a className="btn rounded-xl normal-case mt-3" href="/">
+                        <Home />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="my-3 btn rounded-xl normal-case"
+                        href="/admin"
+                      >
+                        <Settings />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="btn rounded-xl normal-case"
+                        href={logOutUrl}
+                      >
+                        Log Out
+                      </a>
+                    </li>
+                  </ul>
+                )}
+              </div>
+            </>
+          ) : (
+            <ThemeSwitcher />
           )}
         </div>
       </div>

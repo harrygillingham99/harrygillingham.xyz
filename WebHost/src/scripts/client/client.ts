@@ -561,7 +561,8 @@ export class BlogConfig implements IBlogConfig {
   defaultPage?: number;
   linkedInUrl?: string;
   gitHubUrl?: string;
-  logOutUrl?: string | undefined;
+  authenticated?: boolean;
+  logOutUrl?: string;
 
   constructor(data?: IBlogConfig) {
     if (data) {
@@ -578,6 +579,7 @@ export class BlogConfig implements IBlogConfig {
       this.defaultPage = _data["defaultPage"];
       this.linkedInUrl = _data["linkedInUrl"];
       this.gitHubUrl = _data["gitHubUrl"];
+      this.authenticated = _data["authenticated"];
       this.logOutUrl = _data["logOutUrl"];
     }
   }
@@ -595,6 +597,7 @@ export class BlogConfig implements IBlogConfig {
     data["defaultPage"] = this.defaultPage;
     data["linkedInUrl"] = this.linkedInUrl;
     data["gitHubUrl"] = this.gitHubUrl;
+    data["authenticated"] = this.authenticated;
     data["logOutUrl"] = this.logOutUrl;
     return data;
   }
@@ -605,7 +608,8 @@ export interface IBlogConfig {
   defaultPage?: number;
   linkedInUrl?: string;
   gitHubUrl?: string;
-  logOutUrl?: string | undefined;
+  authenticated?: boolean;
+  logOutUrl?: string;
 }
 
 export class SwaggerException extends Error {
