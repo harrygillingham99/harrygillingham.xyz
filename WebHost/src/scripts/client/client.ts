@@ -561,7 +561,7 @@ export class BlogConfig implements IBlogConfig {
   defaultPage?: number;
   linkedInUrl?: string;
   gitHubUrl?: string;
-  authenticated?: boolean;
+  authenticated?: boolean | undefined;
   logOutUrl?: string;
 
   constructor(data?: IBlogConfig) {
@@ -608,7 +608,7 @@ export interface IBlogConfig {
   defaultPage?: number;
   linkedInUrl?: string;
   gitHubUrl?: string;
-  authenticated?: boolean;
+  authenticated?: boolean | undefined;
   logOutUrl?: string;
 }
 

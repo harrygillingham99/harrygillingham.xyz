@@ -5,7 +5,6 @@ using Auth0.AspNetCore.Authentication;
 using harrygillingham.xyz.Objects.Exceptions;
 using harrygillingham.xyz.WebHost.NSwag;
 using Hellang.Middleware.ProblemDetails;
-using Microsoft.CodeAnalysis.FlowAnalysis;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;

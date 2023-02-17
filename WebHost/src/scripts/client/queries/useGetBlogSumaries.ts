@@ -12,7 +12,7 @@ const useGetBlogSummaries = (startPage?: number, startPageSize?: number) => {
     page: startPage ?? defaultPage,
     pageSize: startPageSize ?? defaultPageSize,
   });
-  const firstUpdate = useRef(false);
+  const firstUpdate = useRef(true);
   const queryClient = useQueryClient();
   const query = useQuery(["blog", state.page, state.pageSize], () =>
     client.blog_Summary(state.page, state.pageSize)

@@ -1,11 +1,9 @@
 ﻿using System.Net;
 using harrygillingham.xyz.BLL.Facades.Interfaces;
 using harrygillingham.xyz.Objects;
-using harrygillingham.xyz.Objects.Config;
 using harrygillingham.xyz.WebHost.Controllers.API.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace harrygillingham.xyz.WebHost.Controllers.API
 {
@@ -13,12 +11,10 @@ namespace harrygillingham.xyz.WebHost.Controllers.API
     [Route("api/blog")]
     public class BlogController : BaseController
     {
-        private readonly BlogConfig _blogConfig;
         private readonly IBlogFacade _blogFacade;
-        public BlogController(IOptions<BlogConfig> blogOptions, IBlogFacade blogFacade)
+        public BlogController( IBlogFacade blogFacade)
         {
             _blogFacade = blogFacade;
-            _blogConfig = blogOptions.Value;
         }
 
         [HttpGet("summary")]
@@ -26,7 +22,7 @@ namespace harrygillingham.xyz.WebHost.Controllers.API
         public Task<IActionResult> Summary([FromQuery] int? page, [FromQuery] int? pageSize)
         {
             return ExecuteMapToActionResult(() =>
-                _blogFacade.GetBlogSummaries(page ?? _blogConfig.DefaultPage, pageSize ?? _blogConfig.DefaultPageSize));
+                _blogFacade.GetBlogSummaries(page, pageSize));
         }
 
         [HttpGet("article/{slug}")]
