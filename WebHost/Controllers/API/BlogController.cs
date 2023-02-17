@@ -3,6 +3,7 @@ using harrygillingham.xyz.BLL.Facades.Interfaces;
 using harrygillingham.xyz.Objects;
 using harrygillingham.xyz.Objects.Config;
 using harrygillingham.xyz.WebHost.Controllers.API.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -35,8 +36,10 @@ namespace harrygillingham.xyz.WebHost.Controllers.API
             return ExecuteMapToActionResult(() => _blogFacade.GetBlogArticle(slug));
         }
 
+        [Authorize]
         [HttpPost("article")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
         public Task<IActionResult> Article([FromBody] Blog blog)
         {
             return ExecuteMapToActionResult(() => _blogFacade.AddBlogArticle(blog));

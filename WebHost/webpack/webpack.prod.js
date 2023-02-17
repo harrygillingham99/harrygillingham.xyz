@@ -1,7 +1,6 @@
 const config = require("./config/index");
 const webpack = require("webpack");
 const { merge } = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const DefinePlugin = webpack.DefinePlugin;
 const CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
@@ -10,6 +9,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const webpackCommon = require("./webpack.common.js");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const { getHtmlWebpackPlugins } = require("./config/index");
 
 module.exports = ({ analyze }) =>
   merge(webpackCommon, {
@@ -26,10 +26,7 @@ module.exports = ({ analyze }) =>
         ...config.cleanWebpackOptions,
         verbose: false,
       }),
-      new HtmlWebpackPlugin({
-        ...config.commonHtmlWebpackPlugin,
-        title: config.title,
-      }),
+      ...getHtmlWebpackPlugins(false, false),
       analyze === "true" && new BundleAnalyzerPlugin(),
     ].filter(Boolean),
     devtool: false,

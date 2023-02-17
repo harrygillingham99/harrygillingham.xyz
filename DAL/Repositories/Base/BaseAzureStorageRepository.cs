@@ -4,8 +4,6 @@ using Azure;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using harrygillingham.xyz.Objects.Exceptions;
-using Serilog;
 
 namespace harrygillingham.xyz.DAL.Repositories.Base
 {

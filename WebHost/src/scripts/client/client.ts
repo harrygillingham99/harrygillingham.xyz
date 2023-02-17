@@ -318,6 +318,22 @@ export class Client implements IClient {
 
         return result200;
       });
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        let result401: any = null;
+        let resultData401 =
+          _responseText === ""
+            ? null
+            : JSON.parse(_responseText, this.jsonParseReviver);
+        result401 = ProblemDetails.fromJS(resultData401);
+        return throwException(
+          "A server side error occurred.",
+          status,
+          _responseText,
+          _headers,
+          result401
+        );
+      });
     } else if (status !== 200 && status !== 204) {
       return response.text().then((_responseText) => {
         return throwException(
@@ -545,6 +561,7 @@ export class BlogConfig implements IBlogConfig {
   defaultPage?: number;
   linkedInUrl?: string;
   gitHubUrl?: string;
+  logOutUrl?: string | undefined;
 
   constructor(data?: IBlogConfig) {
     if (data) {
@@ -561,6 +578,7 @@ export class BlogConfig implements IBlogConfig {
       this.defaultPage = _data["defaultPage"];
       this.linkedInUrl = _data["linkedInUrl"];
       this.gitHubUrl = _data["gitHubUrl"];
+      this.logOutUrl = _data["logOutUrl"];
     }
   }
 
@@ -577,6 +595,7 @@ export class BlogConfig implements IBlogConfig {
     data["defaultPage"] = this.defaultPage;
     data["linkedInUrl"] = this.linkedInUrl;
     data["gitHubUrl"] = this.gitHubUrl;
+    data["logOutUrl"] = this.logOutUrl;
     return data;
   }
 }
@@ -586,6 +605,7 @@ export interface IBlogConfig {
   defaultPage?: number;
   linkedInUrl?: string;
   gitHubUrl?: string;
+  logOutUrl?: string | undefined;
 }
 
 export class SwaggerException extends Error {

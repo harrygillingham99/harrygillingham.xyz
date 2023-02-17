@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using System.Net;
 using System.Text.Json.Serialization;
+using Auth0.AspNetCore.Authentication;
 using harrygillingham.xyz.Objects.Exceptions;
 using harrygillingham.xyz.WebHost.NSwag;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -81,6 +83,14 @@ WebApplicationBuilder ConfigureBuilder(string[] args, out bool isDevelopment)
         });
     }
 
+    webApplicationBuilder.Services.ConfigureSameSiteNoneCookies();
+
+    webApplicationBuilder.Services.AddAuth0WebAppAuthentication(options => {
+        options.Domain = webApplicationBuilder.Configuration["Auth0:Domain"];
+        options.ClientId = webApplicationBuilder.Configuration["Auth0:ClientId"];
+        options.ClientSecret = webApplicationBuilder.Configuration["Auth0:ClientSecret"];
+    });
+
     webApplicationBuilder.Services.AddProblemDetails(cfg =>
     {
         cfg.IncludeExceptionDetails = (_, _) => isDevelopmentEnv;
@@ -117,6 +127,8 @@ void ConfigureApp(WebApplication webApplication, bool isDevelopment)
 
     webApplication.UseRouting();
 
+    webApplication.UseAuthentication();
+
     webApplication.UseAuthorization();
 
     webApplication.UseResponseCompression();
@@ -141,3 +153,4 @@ void ConfigureApp(WebApplication webApplication, bool isDevelopment)
         endpoints.MapFallbackToController("Index", "Home");
     });
 }
+

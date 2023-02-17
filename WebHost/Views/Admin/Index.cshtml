@@ -1,0 +1,14 @@
+@model harrygillingham.xyz.Objects.Config.BlogConfig
+@{
+    Layout = "_Layout_Admin";
+}
+
+<script>
+    window.blogConfig = @Json.Serialize(Model);
+</script>
+
+<div class="flex flex-col min-h-screen" id="root"></div>
+
+<noscript>
+    You need to enable JavaScript to run this app.
+</noscript>

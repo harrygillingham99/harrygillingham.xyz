@@ -1,11 +1,11 @@
 const killPort = require("kill-port");
 const config = require("./config/index");
 const { merge } = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
 const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
 const webpackCommon = require("./webpack.common.js");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const { getHtmlWebpackPlugins } = require("./config/index");
 
 module.exports = async ({ dev_server }) => {
   dev_server = dev_server === "true";
@@ -17,13 +17,7 @@ module.exports = async ({ dev_server }) => {
     plugins: [
       !dev_server && new CleanWebpackPlugin({ ...config.cleanWebpackOptions }),
       dev_server && new ReactRefreshWebpackPlugin(),
-      new HtmlWebpackPlugin({
-        ...config.commonHtmlWebpackPlugin,
-        title: `DEV | ${config.title}`,
-        devServer: dev_server ? config.devServerFullUrl : false,
-        alwaysWriteToDisk: true,
-        verbose: true,
-      }),
+      ...getHtmlWebpackPlugins(true, dev_server),
       new HtmlWebpackHarddiskPlugin(),
     ].filter(Boolean),
     devtool: "inline-source-map",

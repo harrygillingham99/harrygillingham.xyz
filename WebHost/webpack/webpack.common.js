@@ -7,6 +7,7 @@ module.exports = {
   target: "web",
   entry: {
     app: config.app,
+    admin: config.admin,
     vendors: config.vendors,
     shared: config.shared,
   },

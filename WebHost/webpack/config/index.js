@@ -1,15 +1,23 @@
 const path = require("path");
 const appRoot = require("app-root-path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const faviconPath = "./src/icons/favicon/*";
 const distPath = path.resolve(appRoot.toString(), "wwwroot");
 const devServerUrl = "https://localhost";
 const devServerPort = 8080;
+const devServerFull = `${devServerUrl}:${devServerPort}/`;
+const pageTitle = "harrygillingham.xyz";
 
 module.exports = {
   devServerPort: devServerPort,
 
   app: {
     import: "./src/scripts/app/index.tsx",
+    dependOn: ["vendors", "shared"],
+  },
+
+  admin: {
+    import: "./src/scripts/app/admin.tsx",
     dependOn: ["vendors", "shared"],
   },
 
@@ -23,7 +31,7 @@ module.exports = {
 
   devServerUrl: devServerUrl,
 
-  devServerFullUrl: `${devServerUrl}:${devServerPort}/`,
+  devServerFullUrl: devServerFull,
 
   siteRoot: "/",
 
@@ -47,22 +55,50 @@ module.exports = {
     ],
   },
 
-  commonHtmlWebpackPlugin: {
-    filename: path.join(
-      appRoot.toString(),
-      "Views",
-      "Shared",
-      "_Layout.cshtml"
-    ),
-    template: path.join(
-      appRoot.toString(),
-      "Views",
-      "Templates",
-      "_Layout_Template.cshtml"
-    ),
-    inject: false,
-    minify: false,
-  },
+  getHtmlWebpackPlugins: (dev, dev_serve) => [
+    new HtmlWebpackPlugin({
+      filename: path.join(
+        appRoot.toString(),
+        "Views",
+        "Shared",
+        "_Layout.cshtml"
+      ),
+      template: path.join(
+        appRoot.toString(),
+        "Views",
+        "Templates",
+        "_Layout_Template.cshtml"
+      ),
+      inject: false,
+      minify: false,
+      title: `DEV | ${pageTitle}`,
+      devServer: dev_serve ? devServerFull : false,
+      alwaysWriteToDisk: true,
+      verbose: true,
+      excludeChunks: ["admin"],
+    }),
+    new HtmlWebpackPlugin({
+      filename: path.join(
+        appRoot.toString(),
+        "Views",
+        "Shared",
+        "_Layout_Admin.cshtml"
+      ),
+      template: path.join(
+        appRoot.toString(),
+        "Views",
+        "Templates",
+        "_Layout_Template.cshtml"
+      ),
+      inject: false,
+      minify: false,
+      title: `${dev ? "DEV | " : ""}${pageTitle}`,
+      devServer: dev_serve ? devServerFull : false,
+      alwaysWriteToDisk: true,
+      verbose: true,
+      excludeChunks: ["app"],
+    }),
+  ],
 
-  title: "harrygillingham.xyz",
+  title: pageTitle,
 };
