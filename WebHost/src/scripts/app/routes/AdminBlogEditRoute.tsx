@@ -74,7 +74,7 @@ const AdminBlogEditRoute: React.FC<{ isCreate?: boolean }> = ({ isCreate }) => {
                       onChange={(value) =>
                         form.setFieldValue(field.name, value)
                       }
-                      onBlur={field.onBlur}
+                      onBlur={() => form.setFieldTouched(field.name)}
                     />
                   )}
                 </Field>
