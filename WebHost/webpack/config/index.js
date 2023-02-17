@@ -41,6 +41,8 @@ module.exports = {
     cleanOnceBeforeBuildPatterns: [
       "**/*",
       path.join(appRoot.toString(), "Views", "Shared", "_Layout.cshtml"),
+      path.join(appRoot.toString(), "Views", "Shared", "_Layout_Admin.cshtml"),
+      path.join(appRoot.toString(), "Views", "Shared", "_Layout.cshtml"),
     ],
     verbose: true,
   },
