@@ -1,8 +1,9 @@
-# .NET 6 SPA Template
+# harrygillingham.xyz
 
-A barebones SPA Template
+the source code for https://harrygillingham.xyz
 
 ### Backend
+- Azure Blob & Table Storage
 - .NET 6 MVC
 - .NET 6 Internal API
 - Automatic TS Client generation on MSBuild
