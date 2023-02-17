@@ -68,7 +68,6 @@
 
  <ItemGroup>
     <Folder Include="src\icons\favicon\" />
-    <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
 
