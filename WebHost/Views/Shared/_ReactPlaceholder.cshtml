@@ -1,0 +1,20 @@
+﻿@inject IOptions<BlogConfig> BlogOptions;
+@using harrygillingham.xyz.Objects.Config
+@using Microsoft.Extensions.Options
+@model harrygillingham.xyz.Objects.Config.BlogConfig;
+
+@{
+    var blogConfig = BlogOptions.Value
+        .SetIsAuthenticated(User.Identity)
+        .SetLogOutUrl(Url.Action("Logout", "Account")!);
+}
+
+<script>
+    window.blogConfig = @Json.Serialize(blogConfig);
+</script>
+
+<div class="flex flex-col min-h-screen" id="root"></div>
+
+<noscript>
+    You need to enable JavaScript to run this app.
+</noscript>
