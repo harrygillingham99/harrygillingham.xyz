@@ -73,7 +73,7 @@ module.exports = {
       ),
       inject: false,
       minify: false,
-      title: `DEV | ${pageTitle}`,
+      title: `${dev ? "DEV | " : ""}${pageTitle}`,
       devServer: dev_serve ? devServerFull : false,
       alwaysWriteToDisk: true,
       verbose: true,
