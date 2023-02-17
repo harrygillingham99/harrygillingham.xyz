@@ -18,9 +18,7 @@ const NavBar: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
     <div className="navbar bg-base-100 shadow-xl p-0">
       <div className="container">
         <div className="flex-1">
-          <Link to={Urls.Landing} className="p-0 text-2xl">
-            XYZ
-          </Link>
+          <span className="p-0 text-2xl">XYZ</span>
         </div>
         <div className="flex flex-row justify-end items-center">
           <span className="flex flex-row">

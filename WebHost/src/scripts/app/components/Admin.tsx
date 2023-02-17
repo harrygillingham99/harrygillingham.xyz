@@ -8,7 +8,7 @@ import NavBar from "./common/NavBar";
 const Admin: React.FC = () => {
   const queryClient = new QueryClient();
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/admin">
       <QueryClientProvider client={queryClient}>
         <AppState.Provider>
           <div className="min-h-screen flex flex-col">
