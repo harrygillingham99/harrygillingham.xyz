@@ -13,3 +13,5 @@
 /Objects/obj
 /Objects/bin/Release/net6.0/harrygillingham.xyz.Objects.dll
 /Objects/bin/Release/net6.0/harrygillingham.xyz.Objects.pdb
+/WebHost/Views/Shared/_Layout_Admin.cshtml
+/WebHost/src/scripts/client/client.ts
