@@ -69,7 +69,7 @@ const BlogForm: React.FC<{ data: Blog; isCreate?: boolean }> = ({
                 {formProps.errors.markdownContent}
               </div>
             )}
-          <div className="flex flex-row justify-center">
+          <div className="flex flex-row justify-center mt-5">
             <button
               onClick={formProps.submitForm}
               type="submit"
