@@ -1,4 +1,5 @@
-﻿using Azure.Data.Tables;
+﻿using Azure;
+using Azure.Data.Tables;
 using harrygillingham.xyz.DAL.Repositories.Base;
 using harrygillingham.xyz.DAL.Repositories.Interfaces;
 using harrygillingham.xyz.Objects;
@@ -65,5 +66,26 @@ public class BlogRepository : BaseAzureStorageRepo , IBlogRepository
             var result = await tc.UpsertEntityAsync(blog);
             return !result.IsError;
         });
+    }
+
+    public async Task<bool> DeleteBlog(string slug)
+    {
+        var deletionResult = true;
+        var (blog, _) = await GetBlogEntityWithMarkdownContent(slug);
+        
+        if (!string.IsNullOrEmpty(blog?.MarkdownContentBlobId))
+        {
+            deletionResult &= await DeleteBlob(blog.MarkdownContentBlobId);
+        }
+
+        if (blog is null) return deletionResult;
+
+        deletionResult &= await WithTableClient(async tc =>
+        {
+            var result = await tc.DeleteEntityAsync(blog.PartitionKey, blog.RowKey, ETag.All);
+            return !result.IsError;
+        });
+
+        return deletionResult;
     }
 }

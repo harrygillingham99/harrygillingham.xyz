@@ -32,23 +32,20 @@ const NavBar: React.FC = () => {
                       <ThemeSwitcher />
                     </li>
                     <li>
-                      <a className="btn rounded-xl normal-case mt-3" href="/">
+                      <a className="btn rounded-xl mt-3 text-white" href="/">
                         <Home />
                       </a>
                     </li>
                     <li>
                       <a
-                        className="my-3 btn rounded-xl normal-case"
+                        className="my-3 btn rounded-xl text-white"
                         href="/admin"
                       >
                         <Settings />
                       </a>
                     </li>
                     <li>
-                      <a
-                        className="btn rounded-xl normal-case"
-                        href={logOutUrl}
-                      >
+                      <a className="btn rounded-xl text-white" href={logOutUrl}>
                         Log Out
                       </a>
                     </li>

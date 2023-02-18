@@ -34,7 +34,7 @@ public class BlogFacade : IBlogFacade
         {
             var blogEntities = await _blogRepository.GetBlogEntities(page.Value, pageSize.Value);
             return _blogMapper.EntitiesToSummaries(blogEntities, pageSize.Value);
-        }, DateTimeOffset.Now.AddHours(2));
+        }, DateTimeOffset.Now.AddMinutes(10));
     }
 
     public Task<Blog> GetBlogArticle(string slug)
@@ -57,9 +57,25 @@ public class BlogFacade : IBlogFacade
 
         if (!success) return false;
 
-        _cache.Remove($"{GetType().FullName}_{blog.Slug}_article");
-        _cache.Remove($"{GetType().FullName}_BlogSummaries_{_blogConfig.DefaultPage}_{_blogConfig.DefaultPageSize}");
+        InvalidateCache(blog.Slug);
 
         return true;
+    }
+
+    public async Task<bool> DeleteBlog(string slug)
+    {
+        var result = await _blogRepository.DeleteBlog(slug);
+
+        if (!result) return false;
+
+        InvalidateCache(slug);
+
+        return true;
+    }
+
+    private void InvalidateCache(string slug)
+    {
+        _cache.Remove($"{GetType().FullName}_{slug}_article");
+        _cache.Remove($"{GetType().FullName}_BlogSummaries_{_blogConfig.DefaultPage}_{_blogConfig.DefaultPageSize}");
     }
 }

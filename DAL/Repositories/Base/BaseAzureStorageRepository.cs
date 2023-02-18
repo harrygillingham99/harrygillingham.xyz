@@ -54,5 +54,12 @@ namespace harrygillingham.xyz.DAL.Repositories.Base
                 await using var stream = await blobClient.OpenReadAsync();
                 return await JsonSerializer.DeserializeAsync<T>(stream);
             }
+
+            protected async Task<bool> DeleteBlob(string key)
+            {
+                var blobClient = _blobContainerClient.GetBlobClient(key);
+                var result = await blobClient.DeleteAsync();
+                return !result.IsError;
+            }
         }
 }

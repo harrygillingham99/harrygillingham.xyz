@@ -16,6 +16,8 @@ export interface IClient {
 
   blog_ArticleGET(slug: string | null): Promise<Blog>;
 
+  blog_DeleteArticle(slug: string | null): Promise<boolean>;
+
   blog_ArticlePOST(blog: Blog): Promise<boolean>;
 }
 
@@ -233,6 +235,103 @@ export class Client implements IClient {
     return Promise.resolve<Blog>(null as any);
   }
 
+  blog_DeleteArticle(slug: string | null): Promise<boolean> {
+    let url_ = this.baseUrl + "/api/blog/article/{slug}";
+    if (slug === undefined || slug === null)
+      throw new Error("The parameter 'slug' must be defined.");
+    url_ = url_.replace("{slug}", encodeURIComponent("" + slug));
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: RequestInit = {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+      },
+    };
+
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processBlog_DeleteArticle(_response);
+    });
+  }
+
+  protected processBlog_DeleteArticle(response: Response): Promise<boolean> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    }
+    if (status === 500) {
+      return response.text().then((_responseText) => {
+        let result500: any = null;
+        let resultData500 =
+          _responseText === ""
+            ? null
+            : JSON.parse(_responseText, this.jsonParseReviver);
+        result500 = ProblemDetails.fromJS(resultData500);
+        return throwException(
+          "A server side error occurred.",
+          status,
+          _responseText,
+          _headers,
+          result500
+        );
+      });
+    } else if (status === 404) {
+      return response.text().then((_responseText) => {
+        let result404: any = null;
+        let resultData404 =
+          _responseText === ""
+            ? null
+            : JSON.parse(_responseText, this.jsonParseReviver);
+        result404 = ProblemDetails.fromJS(resultData404);
+        return throwException(
+          "A server side error occurred.",
+          status,
+          _responseText,
+          _headers,
+          result404
+        );
+      });
+    } else if (status === 400) {
+      return response.text().then((_responseText) => {
+        let result400: any = null;
+        let resultData400 =
+          _responseText === ""
+            ? null
+            : JSON.parse(_responseText, this.jsonParseReviver);
+        result400 = ProblemDetails.fromJS(resultData400);
+        return throwException(
+          "A server side error occurred.",
+          status,
+          _responseText,
+          _headers,
+          result400
+        );
+      });
+    } else if (status === 200) {
+      return response.text().then((_responseText) => {
+        let result200: any = null;
+        let resultData200 =
+          _responseText === ""
+            ? null
+            : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = resultData200 !== undefined ? resultData200 : <any>null;
+
+        return result200;
+      });
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          "An unexpected server error occurred.",
+          status,
+          _responseText,
+          _headers
+        );
+      });
+    }
+    return Promise.resolve<boolean>(null as any);
+  }
+
   blog_ArticlePOST(blog: Blog): Promise<boolean> {
     let url_ = this.baseUrl + "/api/blog/article";
     url_ = url_.replace(/[?&]$/, "");
@@ -317,22 +416,6 @@ export class Client implements IClient {
         result200 = resultData200 !== undefined ? resultData200 : <any>null;
 
         return result200;
-      });
-    } else if (status === 401) {
-      return response.text().then((_responseText) => {
-        let result401: any = null;
-        let resultData401 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result401 = ProblemDetails.fromJS(resultData401);
-        return throwException(
-          "A server side error occurred.",
-          status,
-          _responseText,
-          _headers,
-          result401
-        );
       });
     } else if (status !== 200 && status !== 204) {
       return response.text().then((_responseText) => {

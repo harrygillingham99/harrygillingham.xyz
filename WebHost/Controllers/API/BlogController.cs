@@ -35,10 +35,18 @@ namespace harrygillingham.xyz.WebHost.Controllers.API
         [Authorize]
         [HttpPost("article")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
         public Task<IActionResult> Article([FromBody] Blog blog)
         {
             return ExecuteMapToActionResult(() => _blogFacade.AddBlogArticle(blog));
         }
+
+        [Authorize]
+        [HttpDelete("article/{slug}")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        public Task<IActionResult> DeleteArticle([FromRoute] string slug)
+        {
+            return ExecuteMapToActionResult(() => _blogFacade.DeleteBlog(slug));
+        }
+
     }
 }
