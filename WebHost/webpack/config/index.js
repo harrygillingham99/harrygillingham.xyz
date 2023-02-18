@@ -25,7 +25,7 @@ module.exports = {
 
   vendors: ["react", "react-dom", "react-router-dom", "react-feather", "dayjs"],
 
-  shared: ["formik", "lodash", "bootstrap"],
+  shared: ["formik", "lodash", "bootstrap", "react-markdown"],
 
   distPath: distPath,
 
