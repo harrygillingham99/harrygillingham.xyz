@@ -16,7 +16,7 @@ const BlogForm: React.FC<{ data: Blog; isCreate?: boolean }> = ({
   const { validator } = useBlogValidator(!!isCreate);
   return (
     <Formik
-      onSubmit={(values) => {
+      onSubmit={(values, helpers) => {
         mutate(values, {
           onSuccess: () => {
             navigate(Urls.Landing);

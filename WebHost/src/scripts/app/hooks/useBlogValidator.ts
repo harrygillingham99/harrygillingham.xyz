@@ -9,12 +9,9 @@ const useBlogValidator = (isCreate: boolean) => {
       title: string().required(REQUIRED_FIELD),
       description: string().required(REQUIRED_FIELD),
       slug: string().required(REQUIRED_FIELD),
-      id: string().when({
-        is: isCreate,
-        then: string().notRequired(),
-        otherwise: string().required(REQUIRED_FIELD),
-      }),
-      created: date().notRequired(),
+      id: string()
+        .notRequired()
+        .when(() => (isCreate ? string().notRequired() : string().required())),
     }),
   };
 };
